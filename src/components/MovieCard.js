@@ -1,12 +1,18 @@
 import React from "react";
 import { Badge } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const MovieCard = ({ item }) => {
   const { genreList } = useSelector((state) => state.movie);
+  const navigate = useNavigate();
+  const goToDetail = () => {
+    navigate(`/movies/:${item.id}`);
+  };
   return (
     <div
       className="movie-card"
+      onClick={goToDetail}
       style={{
         backgroundImage:
           "url(" +

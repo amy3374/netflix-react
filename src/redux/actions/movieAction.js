@@ -15,16 +15,23 @@ function getMovies() {
         `/movie/upcoming?api_key=${API_KEY}&language=en-US&page=1`
       );
       const genreApi = api.get(
-        `/genre/movie/list?api_key=${API_KEY}&language=en'`
+        `/genre/movie/list?api_key=${API_KEY}&language=en`
       );
-      let [popularMovies, topRatedMovies, upComingMovies, genreList] =
-        await Promise.all([
-          popularMovieApi,
-          topRatedApi,
-          upComingApi,
-          genreApi,
-        ]);
-      console.log("genreList?", genreList);
+
+      let [
+        popularMovies,
+        topRatedMovies,
+        upComingMovies,
+        genreList,
+        // movieDetail,
+      ] = await Promise.all([
+        popularMovieApi,
+        topRatedApi,
+        upComingApi,
+        genreApi,
+        // movieDetailApi,
+      ]);
+      console.log("genreList?");
       dispatch({
         type: "GET_MOVIES_SUCCESS",
         payload: {
@@ -32,6 +39,27 @@ function getMovies() {
           topRatedMovies: topRatedMovies.data,
           upComingMovies: upComingMovies.data,
           genreList: genreList.data.genres,
+          // movieDetail: movieDetail.data,
+        },
+      });
+    } catch (error) {
+      //에러핸들링 하는 곳
+      dispatch({ type: "GET_MOVIES_FAILURE" });
+    }
+  };
+}
+function getMovieDetail() {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: "GET_MOVIE_DETAIL_REQUEST" });
+      const movieDetailApi = await api.get(
+        `/movie/movie_id?api_key=${API_KEY}&language=en-US`
+      );
+      console.log("detail", movieDetailApi);
+      dispatch({
+        type: "GET_MOVIE_DETAIL_SUCCESS",
+        payload: {
+          movieDetailApi,
         },
       });
     } catch (error) {
@@ -43,4 +71,5 @@ function getMovies() {
 
 export const movieAction = {
   getMovies,
+  getMovieDetail,
 };
