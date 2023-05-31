@@ -45,3 +45,13 @@ body{
     height: 100%;
     transition: 0.2s ease-in-out;
 }
+
+.detail-img{ 
+    margin:2em 0;
+    background-size: cover;
+    height:100vh
+}
+.detail-info{
+    margin:2em 0;
+    height:100vh
+}
